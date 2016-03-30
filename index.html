@@ -4,7 +4,29 @@
 	<title>SeeMORE</title>
 </head>
 <body>
+	<form action="client.js" method="post">
+		Restaurant Name:
+		<input type="text" name="name">
 
+		<br><br>
+		Address:<br>
+		
+		Building Number:<input type="text" name="buildingNumber"><br>
+		Street:<input type="text" name="streetName"><br>
+		Zipcode:<input type="text" name="zipcode"><br><br>
+		
+		Borough:<br>
+		<input type="radio" name="borough" value="Manhattan">Manhattan<br>
+		<input type="radio" name="borough" value="Brooklyn">Brooklyn<br>
+		<input type="radio" name="borough" value="Bronx">Bronx<br>
+		<input type="radio" name="borough" value="Queens">Queens<br>
+		<input type="radio" name="borough" value="Staten Island">Staten Island
+		<br><br>
+		Cuisine:
+		<input type="text" name="cuisine"><br>
+
+		<input type="submit">
+	</form>
 </body>
-<script src="client.js" type="text/javascript"></script>
+<!--<script src="client.js" type="text/javascript"></script>-->
 </html>

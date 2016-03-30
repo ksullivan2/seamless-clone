@@ -1,74 +1,56 @@
 var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 
-//CONNECT TO THE SERVER
-var url = 'mongodb://localhost:27017/seamless';
-MongoClient.connect(url, function(err, db) {
-  assert.equal(null, err);
-  console.log("Connected correctly to server.");
-  db.close();
-});
-
 //required so that entries without Object IDs can be assigned them by mongo
 var ObjectId = require('mongodb').ObjectID;
 
-var newEntry = {
-      "address" : {
-         "street" : "2 Avenue",
-         "zipcode" : "10075",
-         "building" : "1480",
-         "coord" : [ -73.9557413, 40.7720266 ]
-      },
-      "borough" : "Manhattan",
-      "cuisine" : "Italian",
-      "grades" : [
-         {
-            "date" : new Date("2014-10-01T00:00:00Z"),
-            "grade" : "A",
-            "score" : 11
-         },
-         {
-            "date" : new Date("2014-01-16T00:00:00Z"),
-            "grade" : "B",
-            "score" : 17
-         }
-      ],
-      "name" : "Vella",
-      "restaurant_id" : "41704620"
-   }
+//CONNECT TO THE SERVER
+var url = 'mongodb://localhost:27017/seamless';
 
-var writeOne = function(newEntry){
+//test that server is working correctly
+MongoClient.connect(url, function(err, db) {
+  assert.equal(null, err);
+  console.log("Connected correctly to database server.");
+  db.close();
+});
+
+//Restaurant Syntax:
+// {
+// 	name:
+// 	buildingNumber:
+// 	streetName:
+// 	zipcode:
+// 	borough:
+// 	cuisine:
+// }
+
+
+
+var writeNewEntry = function(newEntry){
 	MongoClient.connect(url, function(err, db) {
 	    assert.equal(null, err);
 
-	    db.collection('restaurants').insertOne(newEntry, function(err, result) {
+	    db.collection('restaurants').insertOne({
+	    	"name": newEntry.name.toString(),
+	    	"address": {
+	    		"building": newEntry.buildingNumber.toString(),
+	    		"street": newEntry.streetName.toString(),
+	    		"zipcode": newEntry.zipcode.toString()
+	    	},
+	    	"borough": newEntry.borough.toString(),
+	    	"cuisine": newEntry.cuisine.toString()
+	    }, function(err, result) {
 		    assert.equal(err, null);
 
-		    console.log("Inserted a document into the restaurants collection.");
+		    console.log("Inserted "+newEntry.name+" into the restaurants collection.");
 		    db.close();
 	    });
 	});
 }
 
-var findRestaurantsByBorough = function(borough) {
-	MongoClient.connect(url, function(err, db) {
-	  	assert.equal(null, err);
 
-	    var cursor = db.collection('restaurants').find( { "borough": borough } );
-	    cursor.each(function(err, doc) {
-	    	assert.equal(err, null);
-	      	
-	      	if (doc != null) {
-	        	console.dir(doc);
-	      	} else {
-	         db.close();;
-	      	}
-	   });
 
-   });
-};
-
-var updateRestaurants = function() {
+var updateEntry = function(entry) {
    MongoClient.connect(url, function(err, db) {
 	  	assert.equal(null, err);
 	  	db.collection('restaurants').updateOne(
@@ -83,6 +65,58 @@ var updateRestaurants = function() {
 		      db.close();
    		});
    	});
+};
+
+var findRestaurantIDsByName = function(name) {
+	var restaurantList = []
+
+	MongoClient.connect(url, function(err, db) {
+	  	assert.equal(null, err);
+
+	    var cursor = db.collection('restaurants').find( { "name": name } );
+	    
+	    cursor.each(function(err, doc) {
+	    	assert.equal(err, null);
+	      	
+	      	if (doc != null) {
+	      		restaurantList.push(doc._id)
+	      	} else {	     
+		        db.close();
+		        console.log(restaurantList)
+		        if (restaurantList.length === 0){console.log("There were no restaurants with that name.")}
+		        return restaurantList
+	      	}
+	   });
+
+    });	
+};
+
+var findRestaurantByID = function(id) {
+	var restaurant = null;
+
+	MongoClient.connect(url, function(err, db) {
+	  	assert.equal(null, err);
+
+	    var cursor = db.collection('restaurants').find( { "_id": ObjectId(id) } );
+	    
+	    cursor.each(function(err, doc) {
+	    	assert.equal(err, null);
+	      	
+	      	if (doc != null) {
+	      		
+	      		restaurant = doc
+	        	
+	      	} else {	     
+		        db.close();
+		        if (restaurant){
+		        	console.log("Found "+ restaurant.name)
+		        } else{
+		        	console.log("ID "+id+" was not found.")
+		        }
+	      	}
+	   });
+
+    });	
 };
 
 var removeRestaurants = function(name) {
@@ -100,4 +134,5 @@ var removeRestaurants = function(name) {
 	});
 };
 
-removeRestaurants("Vella")
+// findRestaurantIDsByName("Juni")
+findRestaurantByID("56fc1d1c83c72c30e3e4aec3")
