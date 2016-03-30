@@ -50,7 +50,7 @@ var writeOne = function(newEntry){
 	});
 }
 
-var findRestaurants = function(borough) {
+var findRestaurantsByBorough = function(borough) {
 	MongoClient.connect(url, function(err, db) {
 	  	assert.equal(null, err);
 
@@ -68,5 +68,36 @@ var findRestaurants = function(borough) {
    });
 };
 
-findRestaurants("Manhattan");
+var updateRestaurants = function() {
+   MongoClient.connect(url, function(err, db) {
+	  	assert.equal(null, err);
+	  	db.collection('restaurants').updateOne(
+	  		//filter: the first record matching this will be updated
+      		{ "name" : "Juni" },
+      		//"update" document specifies the action to perform
+		    {
+		        $set: { "cuisine": "American (New)" },
+		        $currentDate: { "lastModified": true }
+		    }, function(err, results) {
+		      console.log(results);
+		      db.close();
+   		});
+   	});
+};
 
+var removeRestaurants = function(name) {
+	MongoClient.connect(url, function(err, db) {
+	  	assert.equal(null, err);
+	    
+	    db.collection('restaurants').deleteMany(
+	    	//filter condition
+	      	{ "name": name },
+		    function(err, results) {
+		         console.log(results);
+		         db.close();
+	      	}
+	    );
+	});
+};
+
+removeRestaurants("Vella")
