@@ -119,13 +119,13 @@ var findRestaurantByID = function(id) {
     });	
 };
 
-var removeRestaurants = function(name) {
+var removeRestaurants = function(id) {
 	MongoClient.connect(url, function(err, db) {
 	  	assert.equal(null, err);
 	    
-	    db.collection('restaurants').deleteMany(
+	    db.collection('restaurants').deleteOne(
 	    	//filter condition
-	      	{ "name": name },
+	      	{ "_id": ObjectId(id) },
 		    function(err, results) {
 		         console.log(results);
 		         db.close();
