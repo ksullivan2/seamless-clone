@@ -9,7 +9,7 @@ MongoClient.connect(url, function(err, db) {
   db.close();
 });
 
-//UNCLEAR WHY THIS IS REQUIRED YET
+//required so that entries without Object IDs can be assigned them by mongo
 var ObjectId = require('mongodb').ObjectID;
 
 var newEntry = {
@@ -39,17 +39,34 @@ var newEntry = {
 
 var writeOne = function(newEntry){
 	MongoClient.connect(url, function(err, db) {
-		//assert.equal(expected, actual, error)
-		//this statement says that we expect no error
 	    assert.equal(null, err);
 
 	    db.collection('restaurants').insertOne(newEntry, function(err, result) {
 		    assert.equal(err, null);
-		    
+
 		    console.log("Inserted a document into the restaurants collection.");
 		    db.close();
 	    });
 	});
 }
 
-writeOne(newEntry)
+var findRestaurants = function(borough) {
+	MongoClient.connect(url, function(err, db) {
+	  	assert.equal(null, err);
+
+	    var cursor = db.collection('restaurants').find( { "borough": borough } );
+	    cursor.each(function(err, doc) {
+	    	assert.equal(err, null);
+	      	
+	      	if (doc != null) {
+	        	console.dir(doc);
+	      	} else {
+	         db.close();;
+	      	}
+	   });
+
+   });
+};
+
+findRestaurants("Manhattan");
+
