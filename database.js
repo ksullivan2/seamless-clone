@@ -25,7 +25,7 @@ MongoClient.connect(url, function(err, db) {
 // }
 
 
-
+//DONE
 var writeNewEntry = function(newEntry){
 	MongoClient.connect(url, function(err, db) {
 	    assert.equal(null, err);
@@ -49,16 +49,17 @@ var writeNewEntry = function(newEntry){
 }
 
 
-
-var updateEntry = function(entry) {
+//DONE
+var updateEntry = function(id, entry) {
    MongoClient.connect(url, function(err, db) {
 	  	assert.equal(null, err);
+
 	  	db.collection('restaurants').updateOne(
 	  		//filter: the first record matching this will be updated
-      		{ "name" : "Juni" },
+      		{ "_id" : ObjectId(id) },
       		//"update" document specifies the action to perform
 		    {
-		        $set: { "cuisine": "American (New)" },
+		        $set: entry,
 		        $currentDate: { "lastModified": true }
 		    }, function(err, results) {
 		      console.log(results);
@@ -67,6 +68,7 @@ var updateEntry = function(entry) {
    	});
 };
 
+//DONE
 var findRestaurantIDsByName = function(name) {
 	var restaurantList = []
 
@@ -91,6 +93,7 @@ var findRestaurantIDsByName = function(name) {
     });	
 };
 
+//DONE
 var findRestaurantByID = function(id) {
 	var restaurant = null;
 
@@ -119,7 +122,9 @@ var findRestaurantByID = function(id) {
     });	
 };
 
-var removeRestaurants = function(id) {
+
+//DONE
+var removeRestaurantByID = function(id) {
 	MongoClient.connect(url, function(err, db) {
 	  	assert.equal(null, err);
 	    
