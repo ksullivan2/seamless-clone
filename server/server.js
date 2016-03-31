@@ -22,6 +22,11 @@ app.get('/', function(req,res) {
   //res.sendFile('/index.html');
 });
 
+app.get('/:name', function (req, res) {
+  var restaurant = database.findRestaurantByName(req.param('name'));
+  res.json(restaurant);
+})
+
 app.post('/createRestaurant', function (req, res) {
   res.send(req.body);
   console.log(req.body);
