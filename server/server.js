@@ -2,6 +2,7 @@ var express = require('express');
 var path = require('path');
 var app = express();
 var bodyParser = require('body-parser');
+var database = require('../database.js')
 
 //app.use(bodyParser());
 app.use(bodyParser.urlencoded({

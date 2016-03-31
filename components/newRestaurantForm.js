@@ -1,5 +1,6 @@
 var React = require('react');
 
+
 //props: restaurantInfo = {
 //	name : 'somename',
 //	address: 'some street'

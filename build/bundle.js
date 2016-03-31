@@ -48,7 +48,7 @@
 
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
-	var newRestaurantForm = __webpack_require__(159);
+	var NewRestaurantForm = __webpack_require__(159);
 
 	var restaurantInfo = {
 	  name: 'somename',
@@ -62,8 +62,7 @@
 	    return React.createElement(
 	      'div',
 	      { id: 'App' },
-	      'App',
-	      React.createElement('newRestaurantForm', { restaurantInfo: restaurantInfo })
+	      React.createElement(NewRestaurantForm, { restaurantInfo: restaurantInfo })
 	    );
 	  }
 	});
@@ -19690,13 +19689,13 @@
 	//	address: 'some street'
 	//}
 
-	var newRestaurantForm = React.createClass({
-			displayName: 'newRestaurantForm',
+	var NewRestaurantForm = React.createClass({
+			displayName: 'NewRestaurantForm',
 
 			render: function render() {
 					return React.createElement(
 							'div',
-							{ id: 'newRestaurantForm' },
+							{ id: 'NewRestaurantForm' },
 							React.createElement(
 									'form',
 									{ action: 'http://localhost:3000/createRestaurant', method: 'post', enctype: 'application/x-www-form-urlencoded' },
@@ -19743,7 +19742,7 @@
 			}
 	});
 
-	module.exports = newRestaurantForm;
+	module.exports = NewRestaurantForm;
 
 /***/ }
 /******/ ]);

@@ -5,14 +5,7 @@ var assert = require('assert');
 var ObjectId = require('mongodb').ObjectID;
 
 //CONNECT TO THE SERVER
-var url = 'mongodb://localhost:27017/seamless';
-
-//test that server is working correctly
-MongoClient.connect(url, function(err, db) {
-  assert.equal(null, err);
-  console.log("Connected correctly to database server.");
-  db.close();
-});
+	var url = 'mongodb://localhost:27017/seamless';
 
 //Restaurant Syntax:
 // {
@@ -24,9 +17,17 @@ MongoClient.connect(url, function(err, db) {
 // 	cuisine:
 // }
 
+function database(){
+	//test that server is working correctly
+	MongoClient.connect(url, function(err, db) {
+	assert.equal(null, err);
+	console.log("Connected correctly to database server.");
+	db.close();
+	});
+}
 
 //DONE
-var writeNewEntry = function(newEntry){
+database.prototype.writeNewEntry = function(newEntry){
 	MongoClient.connect(url, function(err, db) {
 	    assert.equal(null, err);
 
@@ -50,7 +51,7 @@ var writeNewEntry = function(newEntry){
 
 
 //DONE
-var updateEntry = function(id, entry) {
+database.prototype.updateEntry = function(id, entry) {
    MongoClient.connect(url, function(err, db) {
 	  	assert.equal(null, err);
 
@@ -69,7 +70,7 @@ var updateEntry = function(id, entry) {
 };
 
 //DONE
-var findRestaurantIDsByName = function(name) {
+database.prototype.findRestaurantIDsByName = function(name) {
 	var restaurantList = []
 
 	MongoClient.connect(url, function(err, db) {
@@ -94,7 +95,7 @@ var findRestaurantIDsByName = function(name) {
 };
 
 //DONE
-var findRestaurantByID = function(id) {
+database.prototype.findRestaurantByID = function(id) {
 	var restaurant = null;
 
 	MongoClient.connect(url, function(err, db) {
@@ -124,7 +125,7 @@ var findRestaurantByID = function(id) {
 
 
 //DONE
-var removeRestaurantByID = function(id) {
+database.prototype.removeRestaurantByID = function(id) {
 	MongoClient.connect(url, function(err, db) {
 	  	assert.equal(null, err);
 	    
@@ -140,4 +141,6 @@ var removeRestaurantByID = function(id) {
 };
 
 // findRestaurantIDsByName("Juni")
-findRestaurantByID("56fc1d1c83c72c30e3e4aec3")
+// findRestaurantByID("56fc1d1c83c72c30e3e4aec3")
+
+module.exports = database;
