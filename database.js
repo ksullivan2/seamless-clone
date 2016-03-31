@@ -94,6 +94,30 @@ database.prototype.findRestaurantIDsByName = function(name) {
     });	
 };
 
+database.prototype.findRestaurantByName = function(name) {
+	var restaurant = null;
+
+	MongoClient.connect(url, function(err, db) {
+	  	assert.equal(null, err);
+
+	    var cursor = db.collection('restaurants').find( { "name": name } );
+	    
+	    cursor.each(function(err, doc) {
+	    	assert.equal(err, null);
+	      	
+	      	if (doc != null) {
+	      		restaurant = doc
+	      	} else {	     
+		        db.close();
+		        
+		        if (!restaurant){console.log("There were no restaurants with that name.")}
+		        return restaurant
+	      	}
+	   });
+
+    });	
+};
+
 //DONE
 database.prototype.findRestaurantByID = function(id) {
 	var restaurant = null;
