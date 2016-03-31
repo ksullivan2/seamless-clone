@@ -1,13 +1,18 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
-var Restaurant = require('./Restaurant');
+var NewRestaurantForm = require('./newRestaurantForm.js');
+
+var restaurantInfo = {
+	name : 'somename',
+	address: 'some street'
+}
 
 var App = React.createClass({
   render: function () {
     return (
       <div id='App'>
-        App
-        <Restaurant />
+        
+        <NewRestaurantForm restaurantInfo={restaurantInfo}/>
       </div>
     )
   }

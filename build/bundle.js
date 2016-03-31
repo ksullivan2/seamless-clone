@@ -48,7 +48,12 @@
 
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
-	var Restaurant = __webpack_require__(159);
+	var newRestaurantForm = __webpack_require__(159);
+
+	var restaurantInfo = {
+	  name: 'somename',
+	  address: 'some street'
+	};
 
 	var App = React.createClass({
 	  displayName: 'App',
@@ -58,7 +63,7 @@
 	      'div',
 	      { id: 'App' },
 	      'App',
-	      React.createElement(Restaurant, null)
+	      React.createElement('newRestaurantForm', { restaurantInfo: restaurantInfo })
 	    );
 	  }
 	});
@@ -19680,19 +19685,65 @@
 
 	var React = __webpack_require__(1);
 
-	var Restaurant = React.createClass({
-	  displayName: 'Restaurant',
+	//props: restaurantInfo = {
+	//	name : 'somename',
+	//	address: 'some street'
+	//}
 
-	  render: function render() {
-	    return React.createElement(
-	      'div',
-	      { id: 'Restaurant' },
-	      'Restaurant'
-	    );
-	  }
+	var newRestaurantForm = React.createClass({
+			displayName: 'newRestaurantForm',
+
+			render: function render() {
+					return React.createElement(
+							'div',
+							{ id: 'newRestaurantForm' },
+							React.createElement(
+									'form',
+									{ action: 'http://localhost:3000/createRestaurant', method: 'post', enctype: 'application/x-www-form-urlencoded' },
+									'Restaurant Name:',
+									React.createElement('input', { type: 'text', name: 'name', value: this.props.restaurantInfo.name }),
+									React.createElement('br', null),
+									React.createElement('br', null),
+									'Address:',
+									React.createElement('br', null),
+									'Building Number:',
+									React.createElement('input', { type: 'text', name: 'buildingNumber' }),
+									React.createElement('br', null),
+									'Street:',
+									React.createElement('input', { type: 'text', name: 'streetName' }),
+									React.createElement('br', null),
+									'Zipcode:',
+									React.createElement('input', { type: 'text', name: 'zipcode' }),
+									React.createElement('br', null),
+									React.createElement('br', null),
+									'Borough:',
+									React.createElement('br', null),
+									React.createElement('input', { type: 'radio', name: 'borough', value: 'Manhattan' }),
+									'Manhattan',
+									React.createElement('br', null),
+									React.createElement('input', { type: 'radio', name: 'borough', value: 'Brooklyn' }),
+									'Brooklyn',
+									React.createElement('br', null),
+									React.createElement('input', { type: 'radio', name: 'borough', value: 'Bronx' }),
+									'Bronx',
+									React.createElement('br', null),
+									React.createElement('input', { type: 'radio', name: 'borough', value: 'Queens' }),
+									'Queens',
+									React.createElement('br', null),
+									React.createElement('input', { type: 'radio', name: 'borough', value: 'Staten Island' }),
+									'Staten Island',
+									React.createElement('br', null),
+									React.createElement('br', null),
+									'Cuisine:',
+									React.createElement('input', { type: 'text', name: 'cuisine' }),
+									React.createElement('br', null),
+									React.createElement('input', { type: 'submit' })
+							)
+					);
+			}
 	});
 
-	module.exports = Restaurant;
+	module.exports = newRestaurantForm;
 
 /***/ }
 /******/ ]);
